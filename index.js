@@ -34,6 +34,18 @@ async function run() {
       res.send(result);
     });
 
+
+
+    app.delete('/delete-farmer/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await farmersCollection.deleteOne(query);
+      res.send(result);
+    });
+    
+    
+    
+
   }
   finally {
 
