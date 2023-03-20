@@ -20,6 +20,7 @@ async function run() {
   try {
     await client.connect();
     const farmersCollection = client.db('agro_trace').collection('all_farmers');
+    const tpCollection = client.db('agro_trace').collection('tp_collection');
   
     
     //get all Products
@@ -50,6 +51,34 @@ async function run() {
       const farmer = await farmersCollection.findOne(query);
       res.send(farmer);
     });
+
+    app.put('/update-farmer/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const newValues = {
+        $set: {
+          user: req.body.user,
+          date: req.body.date,
+          farmersName: req.body.farmersName,
+          nid: req.body.nid,
+          phone: req.body.phone,
+          area: req.body.area,
+          extensionCenter: req.body.extensionCenter,
+          villageName: req.body.villageName,
+        },
+      };
+    
+      const result = await farmersCollection.updateOne(query, newValues);
+      res.send(result);
+    });
+
+    app.post('/tp-permits', async (req, res) => {
+      const transportPermit = req.body;
+      const result = await tpCollection.insertOne(transportPermit);
+      res.send(result);
+    });
+    
+    
     
     
     
