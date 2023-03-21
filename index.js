@@ -77,6 +77,11 @@ async function run() {
       const result = await tpCollection.insertOne(transportPermit);
       res.send(result);
     });
+
+    app.get('/all-tp', async (req, res) => {
+      const transportPermit = await tpCollection.find().toArray();
+      res.send(transportPermit);
+    });
     
     
     
